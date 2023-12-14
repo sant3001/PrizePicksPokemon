@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { useGetPokemonByNameQuery } from '../store';
+import { useGetPokemonByIdOrNameQuery } from '../store';
 
 export const SearchResults: FC = () => {
-  const { data } = useGetPokemonByNameQuery('bulbasaur');
+  const { data } = useGetPokemonByIdOrNameQuery(35);
   return (
     <div>
       <h2>Search Results</h2>

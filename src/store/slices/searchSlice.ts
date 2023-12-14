@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-export interface SearchState {
-  history: string[];
-}
+import { SearchState } from '../../types';
 
 const initialState: SearchState = {
   history: [],
