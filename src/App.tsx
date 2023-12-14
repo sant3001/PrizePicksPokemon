@@ -1,5 +1,5 @@
 import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import viteLogo from './assets/vite.svg';
 import './App.css';
 import { Providers } from './components/Providers';
 import { SearchResults } from './components/SearchResults';

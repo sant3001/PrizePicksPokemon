@@ -1,5 +1,5 @@
 // Infer the `RootState` and `AppDispatch` types from the store itself
-import { store } from '../store';
+import { store } from '@src/store';
 
 export type AppState = ReturnType<typeof store.getState>;
 // Inferred type of store

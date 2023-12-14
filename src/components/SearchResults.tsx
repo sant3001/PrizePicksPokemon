@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { useGetPokemonByIdOrNameQuery } from '../store';
+import type { FC } from 'react';
+import { useGetPokemonByIdOrNameQuery } from '@src/store';
 
 export const SearchResults: FC = () => {
   const { data } = useGetPokemonByIdOrNameQuery(35);
