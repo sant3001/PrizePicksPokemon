@@ -1,10 +1,12 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import { Providers } from './components/Providers';
+import { SearchResults } from './components/SearchResults';
 
 const App = () => {
   return (
-    <>
+    <Providers>
       <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -14,7 +16,8 @@ const App = () => {
         </a>
       </div>
       <h1>Pokedex</h1>
-    </>
+      <SearchResults />
+    </Providers>
   );
 };
 
