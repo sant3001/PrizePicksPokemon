@@ -16,8 +16,8 @@ export const Home = () => {
       <Container>
         <ListingSearch />
         <Grid container spacing={4}>
-          {data?.results.map((pokemon, i) => (
-            <PokemonCard pokemon={pokemon} key={`pokemon-card-${i}`} />
+          {data?.results.map((pokemon) => (
+            <PokemonCard pokemon={pokemon} key={`pokemon-card-${pokemon.id}`} />
           ))}
           <ListingLoadMore />
         </Grid>

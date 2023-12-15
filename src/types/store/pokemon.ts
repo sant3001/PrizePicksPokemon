@@ -1,11 +1,16 @@
-export interface PokemonListResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Pokemon[];
+export interface Reference {
+  name: string;
+  url: string;
 }
 
-export interface Pokemon {
+export type PokemonList = Reference;
+
+export interface PokemonListResponse<T extends PokemonList = PokemonList> {
+  count: number;
+  results: T[];
+}
+
+export interface Pokemon extends PokemonList {
   id: number;
   name: string;
   base_experience: number;
@@ -21,33 +26,28 @@ export interface Pokemon {
 }
 
 export interface PokemonAbility {
-  ability: {
-    name: string;
-    url: string;
-  };
+  ability: Reference;
   is_hidden: boolean;
   slot: number;
 }
 
 export interface PokemonMove {
-  move: {
-    name: string;
-    url: string;
-  };
+  move: Reference;
 }
 
-export interface PokemonSpecies {
-  name: string;
-  url: string;
-}
+export type PokemonSpecies = Reference;
 
 export interface PokemonSprites {
+  back_default?: string;
+  back_female?: string;
+  back_shiny?: string;
+  back_shiny_female?: string;
   front_default: string;
+  front_female?: string;
+  front_shiny?: string;
+  front_shiny_female?: string;
 }
 
 export interface PokemonType {
-  type: {
-    name: string;
-    url: string;
-  };
+  type: Reference;
 }

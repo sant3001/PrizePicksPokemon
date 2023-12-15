@@ -10,7 +10,7 @@ const Wrapper = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const LinkWrapper = styled('a')(({ theme }) => ({
+const LinkWrapper = styled('div')(({ theme }) => ({
   marginRight: theme.spacing(1),
   [theme.breakpoints.up('sm')]: { marginRight: theme.spacing(2) },
 }));

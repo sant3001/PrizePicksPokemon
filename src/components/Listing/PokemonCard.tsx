@@ -1,16 +1,20 @@
 import { FC } from 'react';
 import {
-  Avatar,
   Box,
   Card as MuiCard,
+  CardActions,
   CardContent,
   CardMedia as CardMediaMui,
+  Chip,
   Divider,
   Grid,
   Typography,
+  Button,
+  Icon,
 } from '@mui/material';
 import { Pokemon } from '@src/types';
 import { styled } from '@mui/material/styles';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 const LinkWrapper = styled('a')(({ theme }) => ({
   display: 'block',
@@ -34,9 +38,11 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const CardMedia = styled(CardMediaMui)(({ theme }) => ({
   position: 'relative',
-  ...theme.unstable_sx({
-    height: { xs: 300, md: 360 },
-  }),
+  backgroundColor: theme.palette.common.white,
+  height: 200,
+  [theme.breakpoints.up('md')]: {
+    height: 260,
+  },
 }));
 
 const BoxSvg = styled('svg')(({ theme }) => ({
@@ -56,13 +62,10 @@ export interface PokemonCardProps {
 export const PokemonCard: FC<PokemonCardProps> = (props) => {
   const { pokemon } = props;
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <LinkWrapper href={''}>
         <Card>
-          <CardMedia
-            image={'https://placehold.co/600x400'}
-            title={pokemon.name}
-          >
+          <CardMedia image={pokemon.sprites.front_default} title={pokemon.name}>
             <BoxSvg
               viewBox="0 0 2880 480"
               fill="none"
@@ -76,40 +79,51 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
               />
             </BoxSvg>
           </CardMedia>
-          <CardContent sx={{ position: 'relative' }}>
-            <Typography variant={'h6'} gutterBottom>
+          <CardContent sx={{ position: 'relative', p: 1 }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ fontWeight: 'bolder', textTransform: 'uppercase' }}
+            >
               {pokemon.name}
             </Typography>
-            <Typography color="text.secondary">{pokemon.name}</Typography>
-          </CardContent>
-          <Box flexGrow={1} />
-          <Box padding={2} display={'flex'} flexDirection={'column'}>
-            <Box marginBottom={2}>
-              <Divider />
-            </Box>
             <Box
               display={'flex'}
-              justifyContent={'space-between'}
+              justifyContent={'flex-start'}
               alignItems={'center'}
             >
-              <Box display={'flex'} alignItems={'center'}>
-                <Avatar
-                  // src={pokemon.author.avatar}
+              {pokemon.abilities.map((ability, i) => (
+                <Chip
+                  key={`pokemon-${pokemon.id}-ability-${i}`}
+                  label={ability.ability.name}
                   sx={{ marginRight: 1 }}
-                >
-                  SB
-                </Avatar>
-                <Typography color={'text.secondary'}>
-                  {/*{pokemon.author.name}*/}
-                  SB
-                </Typography>
-              </Box>
-              <Typography color={'text.secondary'}>
-                {/*{pokemon.date}*/}
-                TODAY
-              </Typography>
+                />
+              ))}
             </Box>
-          </Box>
+          </CardContent>
+          <Box flexGrow={1} />
+          <Divider />
+          <CardActions
+            disableSpacing
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              padding: 0,
+              paddingTop: 1,
+            }}
+          >
+            <Button
+              variant="outlined"
+              size={'small'}
+              startIcon={
+                <Icon>
+                  <ArrowRightIcon />
+                </Icon>
+              }
+            >
+              Read more
+            </Button>
+          </CardActions>
         </Card>
       </LinkWrapper>
     </Grid>
