@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '@src/assets/pokemon-logo.png';
+import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const BoxWrapper = styled(Box)({
   display: 'flex',
@@ -12,8 +14,12 @@ const BoxWrapper = styled(Box)({
   width: 'auto',
 });
 
-const LinkWrapper = styled('a')(({ theme }) => ({
+const LinkWrapper = styled(Link)(({ theme }) => ({
+  color: theme.palette.primary.main,
   display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'center',
+  textDecoration: 'none',
   width: 100,
   [theme.breakpoints.up('md')]: {
     width: 160,
@@ -43,8 +49,9 @@ export const TopBar: FC<TopBarProps> = (props) => {
   const { onSidebarOpen } = props;
   return (
     <BoxWrapper>
-      <LinkWrapper href="/" title="Pokedex">
+      <LinkWrapper to="/" title="Pokedex">
         <Box component={'img'} src={Logo} height={1} width={1} />
+        <Typography sx={{ mt: -2 }}>Pokédex</Typography>
       </LinkWrapper>
       <MenuIconWrapper>
         <ButtonIcon

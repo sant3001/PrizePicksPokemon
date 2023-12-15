@@ -1,29 +1,33 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Logo from '@src/assets/pokemon-logo.png';
+import { Grid, Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+
+const LogoContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: 'auto',
+  flexDirection: 'column',
+  [theme.breakpoints.up('lg')]: {
+    flexDirection: 'row',
+  },
+}));
+
+const LogoLink = styled(Link)(() => ({
+  display: 'flex',
+  width: 160,
+}));
 
 export const Footer = (): JSX.Element => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          width={1}
-          flexDirection={{ xs: 'column', sm: 'row' }}
-        >
-          <Box
-            display={'flex'}
-            component="a"
-            href="/"
-            title="theFront"
-            width={160}
-          >
+        <LogoContainer>
+          <LogoLink to="/" title="Pokédex">
             <Box component={'img'} src={Logo} height={1} width={1} />
-          </Box>
-        </Box>
+          </LogoLink>
+        </LogoContainer>
       </Grid>
       <Grid item xs={12}>
         <Typography

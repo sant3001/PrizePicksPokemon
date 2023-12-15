@@ -1,16 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { Pokemon, SearchPokemon } from '@src/types';
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
-
-export const pokemonSlice = createApi({
-  reducerPath: 'pokemon',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_POKEMON_API_URL }),
-  endpoints: (builder) => ({
-    getPokemonByIdOrName: builder.query<Pokemon, number | string>({
-      query: (idOrName) => `pokemon/${idOrName}`,
-    }),
-  }),
-});
 
 export const pokemonGraphQLSlice = createApi({
   reducerPath: 'pokemonGraphQL',
@@ -30,23 +20,16 @@ export const pokemonGraphQLSlice = createApi({
                   ? (variables.page - 1) * import.meta.env.VITE_LIST_SIZE
                   : 0
               }
+              order_by: { order: asc }
             ) {
                 id
                 name
-                base_experience
-                height
-                is_default
-                order
-                weight
                 abilities: pokemon_v2_pokemonabilities {
                    ability: pokemon_v2_ability { name }
-                   is_hidden 
-                   slot
                 }
-                moves: pokemon_v2_pokemonmoves { move: pokemon_v2_move { name } }
-                species: pokemon_v2_pokemonspecy { name }
-                sprites: pokemon_v2_pokemonsprites { sprites }
-                types: pokemon_v2_pokemontypes { type: pokemon_v2_type { name } }
+                sprites: pokemon_v2_pokemonsprites {
+                    sprites
+                }
             }
             pokemon_v2_pokemon_aggregate(where: { name: { _regex: $name } }) {
               aggregate {
@@ -72,8 +55,65 @@ export const pokemonGraphQLSlice = createApi({
         };
       },
     }),
+    getPokemonById: builder.query<Pokemon, number>({
+      query: (id) => ({
+        document: /* GraphQL */ `
+          query getPokemonByIdOrName($id: Int!) {
+            pokemon_v2_pokemon(where: { id: { _eq: $id } }) {
+              id
+              name
+              base_experience
+              height
+              is_default
+              weight
+              abilities: pokemon_v2_pokemonabilities {
+                ability: pokemon_v2_ability {
+                  name
+                  is_main_series
+                  effects: pokemon_v2_abilityeffecttexts(
+                    where: { pokemon_v2_language: { name: { _eq: "en" } } }
+                  ) {
+                    effect
+                  }
+                }
+                is_hidden
+                slot
+              }
+              species: pokemon_v2_pokemonspecy {
+                name
+              }
+              sprites: pokemon_v2_pokemonsprites {
+                sprites
+              }
+              types: pokemon_v2_pokemontypes {
+                type: pokemon_v2_type {
+                  name
+                }
+              }
+              forms: pokemon_v2_pokemonforms {
+                name
+                form_name
+                is_mega
+              }
+            }
+          }
+        `,
+        variables: { id },
+      }),
+      transformResponse: (baseQueryReturnValue: SearchPokemon): Pokemon => {
+        // @ts-expect-error GraphQL response is not typed
+        console.log(baseQueryReturnValue.pokemon_v2_evolutionchain);
+        return {
+          ...baseQueryReturnValue.pokemon_v2_pokemon[0],
+          sprites: JSON.parse(
+            // @ts-expect-error GraphQL response is not typed
+            baseQueryReturnValue.pokemon_v2_pokemon[0].sprites[0]?.sprites,
+          ),
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetPokemonByIdOrNameQuery } = pokemonSlice;
-export const { useSearchPokemonQuery } = pokemonGraphQLSlice;
+export const { useSearchPokemonQuery, useGetPokemonByIdQuery } =
+  pokemonGraphQLSlice;

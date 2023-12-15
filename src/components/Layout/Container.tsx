@@ -3,7 +3,7 @@ import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
 const ContainerWrap = styled(Box)(({ theme }) => ({
-  maxWidth: 1236,
+  maxWidth: 1150,
   width: '100%',
   margin: '0 auto',
   padding: theme.spacing(8, 2),

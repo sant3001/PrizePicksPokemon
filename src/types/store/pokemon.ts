@@ -15,10 +15,11 @@ export interface Pokemon {
   species: PokemonSpecies;
   sprites: PokemonSprites;
   types: PokemonType[];
+  forms: PokemonForm[];
 }
 
 export interface PokemonAbility {
-  ability: NamedAPIResource;
+  ability: NamedAPIResource & { effects: { effect: string }[] };
   is_hidden: boolean;
   slot: number;
 }
@@ -42,4 +43,10 @@ export interface PokemonSprites {
 
 export interface PokemonType {
   type: NamedAPIResource;
+}
+
+export interface PokemonForm {
+  name: string;
+  form_name: string;
+  is_mega: boolean;
 }

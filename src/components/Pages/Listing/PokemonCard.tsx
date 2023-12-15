@@ -10,11 +10,10 @@ import {
   Grid,
   Typography,
   Button,
-  Icon,
 } from '@mui/material';
 import { Pokemon } from '@src/types';
 import { styled } from '@mui/material/styles';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Link } from 'react-router-dom';
 
 const LinkWrapper = styled(Link)(({ theme }) => ({
@@ -57,11 +56,9 @@ const CardChips = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const CardActions = styled(MuiCardActions)(({ theme }) => ({
+const CardActions = styled(MuiCardActions)(() => ({
   display: 'flex',
   justifyContent: 'flex-end',
-  padding: 0,
-  paddingTop: theme.spacing(1),
 }));
 
 const BoxSvg = styled('svg')(({ theme }) => ({
@@ -118,15 +115,11 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
           </CardContent>
           <Box flexGrow={1} />
           <Divider />
-          <CardActions disableSpacing>
+          <CardActions>
             <Button
               variant="outlined"
               size={'small'}
-              startIcon={
-                <Icon>
-                  <ArrowRightIcon />
-                </Icon>
-              }
+              startIcon={<PlayArrowIcon />}
             >
               Read more
             </Button>
