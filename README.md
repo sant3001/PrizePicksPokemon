@@ -22,12 +22,16 @@ as well as [pnpm](https://pnpm.io/) (or [npm](https://www.npmjs.com/)).
    ```sh
    pnpm install
    ```
-3. Run the development server
+3. Copy the `.env.example` file to `.env`
+   ```sh
+   cp .env.example .env
+   ```
+4. Run the development server
    ```sh
     pnpm run dev
     ```
-4. Open [http://localhost:5173](http://localhost:5173/) with your browser to see the result.
-5. You can start browsing the Pokédex!
+5. Open [http://localhost:5173](http://localhost:5173/) with your browser to see the result.
+6. You can start browsing the Pokédex!
 
 ### Implementation Details
 - The project uses [pnpm](https://pnpm.io/) as a package manager.
