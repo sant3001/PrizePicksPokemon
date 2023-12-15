@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Pokemon, PokemonListResponse, QueryReturnValue } from '@src/types';
+import { Pokemon, SearchPokemon } from '@src/types';
+import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
 
 export const pokemonSlice = createApi({
   reducerPath: 'pokemon',
@@ -8,47 +9,71 @@ export const pokemonSlice = createApi({
     getPokemonByIdOrName: builder.query<Pokemon, number | string>({
       query: (idOrName) => `pokemon/${idOrName}`,
     }),
-    getPokemonList: builder.query<PokemonListResponse<Pokemon>, unknown>({
-      queryFn: async (_, __, ___, baseQuery) => {
-        const pageSize = import.meta.env.VITE_LIST_SIZE;
-        const params = new URLSearchParams({ limit: pageSize });
-        const url = `pokemon?${params.toString()}`;
-        const response = (await baseQuery(
-          url,
-        )) as QueryReturnValue<PokemonListResponse>;
-        const promises =
-          response.data?.results.map(
-            async (pokemon): Promise<Pokemon | undefined> => {
-              const result = (await baseQuery(
-                pokemon.url,
-              )) as QueryReturnValue<Pokemon>;
-              if (!result || !result.data || result.error) return undefined;
-              return { ...result.data, url: pokemon.url };
-            },
-          ) || [];
-        const pokemonList = (await Promise.all(promises)).filter(
-          Boolean,
-        ) as Pokemon[];
+  }),
+});
+
+export const pokemonGraphQLSlice = createApi({
+  reducerPath: 'pokemonGraphQL',
+  baseQuery: graphqlRequestBaseQuery({
+    url: import.meta.env.VITE_POKEMON_GRAPHQL_API_URL,
+  }),
+  endpoints: (builder) => ({
+    searchPokemon: builder.query<SearchPokemon, unknown>({
+      query: (variables: { name: string; page?: number }) => ({
+        document: /* GraphQL */ `
+          query searchPokemon($name: String!) {
+            pokemon_v2_pokemon(
+              where: {name: { _regex: $name }}
+              limit: ${import.meta.env.VITE_LIST_SIZE}
+              offset: ${
+                variables.page && variables.page > 1
+                  ? (variables.page - 1) * import.meta.env.VITE_LIST_SIZE
+                  : 0
+              }
+            ) {
+                id
+                name
+                base_experience
+                height
+                is_default
+                order
+                weight
+                abilities: pokemon_v2_pokemonabilities {
+                   ability: pokemon_v2_ability { name }
+                   is_hidden 
+                   slot
+                }
+                moves: pokemon_v2_pokemonmoves { move: pokemon_v2_move { name } }
+                species: pokemon_v2_pokemonspecy { name }
+                sprites: pokemon_v2_pokemonsprites { sprites }
+                types: pokemon_v2_pokemontypes { type: pokemon_v2_type { name } }
+            }
+            pokemon_v2_pokemon_aggregate(where: { name: { _regex: $name } }) {
+              aggregate {
+                count
+              }
+            }
+          }
+        `,
+        variables,
+      }),
+      transformResponse: (
+        baseQueryReturnValue: SearchPokemon,
+      ): SearchPokemon => {
         return {
-          data: { count: response.data?.count || 0, results: pokemonList },
+          ...baseQueryReturnValue,
+          pokemon_v2_pokemon: baseQueryReturnValue.pokemon_v2_pokemon.map(
+            (pokemon) => ({
+              ...pokemon,
+              // @ts-expect-error GraphQL response is not typed
+              sprites: JSON.parse(pokemon.sprites[0]?.sprites),
+            }),
+          ),
         };
-      },
-    }),
-    searchPokemon: builder.query<
-      PokemonListResponse,
-      { name: string; page?: number }
-    >({
-      query: ({ name, page }) => {
-        const pageSize = import.meta.env.VITE_LIST_SIZE;
-        const params = new URLSearchParams({ name, limit: pageSize });
-        if (page && page > 1) {
-          params.append('offset', String((page - 1) * pageSize));
-        }
-        return `pokemon?${params.toString()}`;
       },
     }),
   }),
 });
 
-export const { useGetPokemonByIdOrNameQuery, useGetPokemonListQuery } =
-  pokemonSlice;
+export const { useGetPokemonByIdOrNameQuery } = pokemonSlice;
+export const { useSearchPokemonQuery } = pokemonGraphQLSlice;

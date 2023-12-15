@@ -14,16 +14,18 @@ const BoxWrapper = styled(Box)({
 
 const LinkWrapper = styled('a')(({ theme }) => ({
   display: 'flex',
-  ...theme.unstable_sx({
-    width: { xs: 100, md: 160 },
-  }),
+  width: 100,
+  [theme.breakpoints.up('md')]: {
+    width: 160,
+  },
 }));
 
 const MenuIconWrapper = styled(Box)(({ theme }) => ({
   alignItems: 'center',
-  ...theme.unstable_sx({
-    display: { xs: 'flex', md: 'none' },
-  }),
+  display: 'flex',
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
 }));
 
 const ButtonIcon = styled(Button)(({ theme }) => ({

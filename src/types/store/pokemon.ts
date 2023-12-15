@@ -1,16 +1,8 @@
-export interface Reference {
+export interface NamedAPIResource {
   name: string;
-  url: string;
 }
 
-export type PokemonList = Reference;
-
-export interface PokemonListResponse<T extends PokemonList = PokemonList> {
-  count: number;
-  results: T[];
-}
-
-export interface Pokemon extends PokemonList {
+export interface Pokemon {
   id: number;
   name: string;
   base_experience: number;
@@ -26,16 +18,16 @@ export interface Pokemon extends PokemonList {
 }
 
 export interface PokemonAbility {
-  ability: Reference;
+  ability: NamedAPIResource;
   is_hidden: boolean;
   slot: number;
 }
 
 export interface PokemonMove {
-  move: Reference;
+  move: NamedAPIResource;
 }
 
-export type PokemonSpecies = Reference;
+export type PokemonSpecies = NamedAPIResource;
 
 export interface PokemonSprites {
   back_default?: string;
@@ -49,5 +41,5 @@ export interface PokemonSprites {
 }
 
 export interface PokemonType {
-  type: Reference;
+  type: NamedAPIResource;
 }

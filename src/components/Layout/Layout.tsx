@@ -15,6 +15,10 @@ const BoxWrapperSvg = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(6),
 }));
 
+const Main = styled('main')(() => ({
+  minHeight: 'calc(100vh - 400px)',
+}));
+
 const DividerPathSvg = styled('svg')(() => ({
   position: 'absolute',
   top: 0,
@@ -56,7 +60,9 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
   return (
     <Box>
       <Box bgcolor={bgcolor} position={'relative'} zIndex={theme.zIndex.appBar}>
-        <Container paddingTop={'8px !important'} paddingBottom={'0 !important'}>
+        <Container
+          sx={{ paddingTop: '8px !important', paddingBottom: '0 !important' }}
+        >
           <TopNav />
         </Container>
       </Box>
@@ -68,12 +74,12 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
         }}
         elevation={trigger ? 1 : 0}
       >
-        <Container paddingY={1}>
+        <Container sx={{ py: 1 }}>
           <TopBar onSidebarOpen={handleSidebarOpen} />
         </Container>
       </AppBar>
       <Sidebar onClose={handleSidebarClose} open={open} variant="temporary" />
-      <main>{children}</main>
+      <Main>{children}</Main>
       <BoxWrapperSvg>
         <DividerPathSvg
           preserveAspectRatio="none"
@@ -89,7 +95,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
         </DividerPathSvg>
       </BoxWrapperSvg>
       <Box sx={{ backgroundColor: theme.palette.primary.dark }}>
-        <Container paddingY={4}>
+        <Container sx={{ py: 4 }}>
           <Footer />
         </Container>
       </Box>

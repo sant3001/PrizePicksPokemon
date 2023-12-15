@@ -2,9 +2,9 @@ import { FC } from 'react';
 import {
   Box,
   Card as MuiCard,
-  CardActions,
-  CardContent,
-  CardMedia as CardMediaMui,
+  CardActions as MuiCardActions,
+  CardContent as MuiCardContent,
+  CardMedia as MuiCardMedia,
   Chip,
   Divider,
   Grid,
@@ -15,8 +15,9 @@ import {
 import { Pokemon } from '@src/types';
 import { styled } from '@mui/material/styles';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Link } from 'react-router-dom';
 
-const LinkWrapper = styled('a')(({ theme }) => ({
+const LinkWrapper = styled(Link)(({ theme }) => ({
   display: 'block',
   width: 'auto',
   height: '100%',
@@ -36,13 +37,31 @@ const Card = styled(MuiCard)(({ theme }) => ({
   backgroundImage: 'none',
 }));
 
-const CardMedia = styled(CardMediaMui)(({ theme }) => ({
+const CardMedia = styled(MuiCardMedia)(({ theme }) => ({
   position: 'relative',
-  backgroundColor: theme.palette.common.white,
+  backgroundColor: theme.palette.secondary.light,
   height: 200,
   [theme.breakpoints.up('md')]: {
     height: 260,
   },
+}));
+
+const CardContent = styled(MuiCardContent)(({ theme }) => ({
+  position: 'relative',
+  padding: theme.spacing(1),
+}));
+
+const CardChips = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+}));
+
+const CardActions = styled(MuiCardActions)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  padding: 0,
+  paddingTop: theme.spacing(1),
 }));
 
 const BoxSvg = styled('svg')(({ theme }) => ({
@@ -63,7 +82,7 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
   const { pokemon } = props;
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <LinkWrapper href={''}>
+      <LinkWrapper to={`pokemon/${pokemon.id}`}>
         <Card>
           <CardMedia image={pokemon.sprites.front_default} title={pokemon.name}>
             <BoxSvg
@@ -79,7 +98,7 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
               />
             </BoxSvg>
           </CardMedia>
-          <CardContent sx={{ position: 'relative', p: 1 }}>
+          <CardContent>
             <Typography
               variant="h6"
               gutterBottom
@@ -87,11 +106,7 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
             >
               {pokemon.name}
             </Typography>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-start'}
-              alignItems={'center'}
-            >
+            <CardChips>
               {pokemon.abilities.map((ability, i) => (
                 <Chip
                   key={`pokemon-${pokemon.id}-ability-${i}`}
@@ -99,19 +114,11 @@ export const PokemonCard: FC<PokemonCardProps> = (props) => {
                   sx={{ marginRight: 1 }}
                 />
               ))}
-            </Box>
+            </CardChips>
           </CardContent>
           <Box flexGrow={1} />
           <Divider />
-          <CardActions
-            disableSpacing
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              padding: 0,
-              paddingTop: 1,
-            }}
-          >
+          <CardActions disableSpacing>
             <Button
               variant="outlined"
               size={'small'}
