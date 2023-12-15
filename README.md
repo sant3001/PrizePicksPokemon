@@ -18,20 +18,24 @@ as well as [pnpm](https://pnpm.io/) (or [npm](https://www.npmjs.com/)).
    ```sh
    git clone git@github.com:sant3001/PrizePicksPokemon.git
    ```
-2. Install NPM packages
+2. Navigate into the cloned folder
+    ```sh
+   cd PrizePicksPokemon
+   ```
+3. Install NPM packages
    ```sh
    pnpm install
    ```
-3. Copy the `.env.example` file to `.env`
+4. Copy the `.env.example` file to `.env`
    ```sh
    cp .env.example .env
    ```
-4. Run the development server
+5. Run the development server
    ```sh
     pnpm run dev
     ```
-5. Open [http://localhost:5173](http://localhost:5173/) with your browser to see the result.
-6. You can start browsing the Pokédex!
+6. Open [http://localhost:5173](http://localhost:5173/) with your browser to see the result.
+7. You can start browsing the Pokédex!
 
 ### Implementation Details
 - The project uses [pnpm](https://pnpm.io/) as a package manager.
