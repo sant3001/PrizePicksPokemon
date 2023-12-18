@@ -101,8 +101,6 @@ export const pokemonGraphQLSlice = createApi({
         variables: { id },
       }),
       transformResponse: (baseQueryReturnValue: SearchPokemon): Pokemon => {
-        // @ts-expect-error GraphQL response is not typed
-        console.log(baseQueryReturnValue.pokemon_v2_evolutionchain);
         return {
           ...baseQueryReturnValue.pokemon_v2_pokemon[0],
           sprites: JSON.parse(

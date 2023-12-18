@@ -40,5 +40,6 @@ module.exports = {
     ],
     'prettier/prettier': ['error', { singleQuote: true  }],
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'no-console': 'error',
   },
 }

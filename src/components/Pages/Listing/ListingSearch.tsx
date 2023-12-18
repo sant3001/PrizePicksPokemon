@@ -76,8 +76,6 @@ export const ListingSearch: FC = () => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       anchorElRef.current?.blur();
-      console.log('anchorElRef.current?.blur', anchorElRef.current?.blur);
-      console.log('anchorElRef.current', anchorElRef.current);
       dispatch(setSearchTerm(searchText));
       refetch();
       setShowPopper(false);
