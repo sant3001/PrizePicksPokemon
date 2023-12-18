@@ -1,3 +1,5 @@
+[![Code Quality Check](https://github.com/sant3001/PrizePicksPokemon/actions/workflows/code-quality-check.yml/badge.svg)](https://github.com/sant3001/PrizePicksPokemon/actions/workflows/code-quality-check.yml)
+
 # Welcome to the Pokédex!
 
 This is a Pokédex, a website with a Pokemon index that will help you to become the best Pokemon trainer in the world.
